@@ -48,9 +48,10 @@ export default function ColdMailForm() {
           className="mt-1 bg-white bg-opacity-50 text-gray-800 placeholder-gray-500"
         />
       </div>
+
       <div className="animate-fade-in" style={{ animationDelay: "0.6s" }}>
         <Label htmlFor="professorName" className="text-gray-700">
-          Professor's Name
+          Professor&apos;s Name
         </Label>
         <Input
           id="professorName"
@@ -61,6 +62,7 @@ export default function ColdMailForm() {
           placeholder="Enter professor's name"
         />
       </div>
+
       <Button
         type="submit"
         className="w-full animate-fade-in bg-gray-700 hover:bg-gray-600 text-white transition-all duration-300"
@@ -69,6 +71,7 @@ export default function ColdMailForm() {
       >
         {isLoading ? "Generating..." : "Generate Cold Mail"}
       </Button>
+
       {generatedMail && (
         <div className="mt-8 animate-fade-in" style={{ animationDelay: "1s" }}>
           <h2 className="text-xl font-semibold mb-2 text-gray-800">Generated Cold Mail:</h2>
@@ -82,4 +85,3 @@ export default function ColdMailForm() {
     </form>
   )
 }
-
