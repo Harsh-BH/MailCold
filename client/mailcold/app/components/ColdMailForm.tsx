@@ -26,7 +26,7 @@ export default function ColdMailForm() {
       // Convert FormData to JSON (since Next.js API expects JSON)
       const jsonData = {
         professor_name: professorName,
-        cv_filename: file.name, // Assuming FastAPI handles file upload separately
+        cv: file.name, // Assuming FastAPI handles file upload separately
       };
 
       const response = await fetch("/api/generate", {

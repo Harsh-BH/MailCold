@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const formData = await req.formData();
 
     const fastApiResponse = await fetch("http://localhost:7000/generate_email", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: formData,
     });
 
     if (!fastApiResponse.ok) {
