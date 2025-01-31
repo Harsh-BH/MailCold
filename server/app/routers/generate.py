@@ -15,8 +15,7 @@ class GenerateRequest(BaseModel):
 
 @router.post("/generate_email")
 async def generate_email_endpoint(body:GenerateRequest):
-
-
+    print("hello")
     search_query  = body.prospect_name
     search_results = google_search(search_query)
 

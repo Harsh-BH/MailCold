@@ -1,37 +1,55 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { generateColdMail } from "../actions/generateColdMail"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ColdMailForm() {
-  const [file, setFile] = useState<File | null>(null)
-  const [professorName, setProfessorName] = useState("")
-  const [generatedMail, setGeneratedMail] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const [file, setFile] = useState<File | null>(null);
+  const [professorName, setProfessorName] = useState("");
+  const [generatedMail, setGeneratedMail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!file || !professorName) return
+    e.preventDefault();
+    if (!file || !professorName) return;
 
-    setIsLoading(true)
-    const formData = new FormData()
-    formData.append("cv", file)
-    formData.append("professorName", professorName)
+    setIsLoading(true);
 
     try {
-      const result = await generateColdMail(formData)
-      setGeneratedMail(result)
+      const formData = new FormData();
+      formData.append("cv", file);
+      formData.append("professorName", professorName);
+
+      // Convert FormData to JSON (since Next.js API expects JSON)
+      const jsonData = {
+        professor_name: professorName,
+        cv_filename: file.name, // Assuming FastAPI handles file upload separately
+      };
+
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate email.");
+      }
+
+      const result = await response.json();
+      setGeneratedMail(result.generated_email || "Error: No response from server.");
     } catch (error) {
-      console.error("Error generating cold mail:", error)
-      alert("An error occurred while generating the cold mail. Please try again.")
+      console.error("Error generating cold mail:", error);
+      alert("An error occurred while generating the cold mail. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -83,5 +101,5 @@ export default function ColdMailForm() {
         </div>
       )}
     </form>
-  )
+  );
 }
