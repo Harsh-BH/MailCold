@@ -18,8 +18,20 @@ export async function POST(req: NextRequest) {
 
     const data = await fastApiResponse.json();
     return NextResponse.json(data);
-  } catch (error: any) {
-    console.error("Error in Next.js /generate route:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
+  catch (error: unknown) {
+    // Check if error is an instance of Error to safely access its properties
+    if (error instanceof Error) {
+      console.error("Error in Next.js /generate route:", error.message);
+    } else {
+      console.error("Error in Next.js /generate route: Unknown error", error);
+    }
+
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+
 }
+
