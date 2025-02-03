@@ -5,16 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Navbar from "@/components/ui/navbar";
 
-//
-// 1) Cursor Trail component
-//
 function MouseTrail() {
   const [dots, setDots] = useState<{ x: number; y: number; id: string }[]>([]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Add a new dot for each mouse movement
       setDots((prevDots) => [
         ...prevDots,
         {
@@ -31,7 +28,6 @@ function MouseTrail() {
     };
   }, []);
 
-  // Remove older dots if there are too many (e.g., more than 30)
   useEffect(() => {
     if (dots.length > 30) {
       setDots((prevDots) => prevDots.slice(prevDots.length - 30));
@@ -54,9 +50,6 @@ function MouseTrail() {
   );
 }
 
-//
-// 2) ColdMailForm (Main Form)
-//
 function ColdMailForm() {
   const [file, setFile] = useState<File | null>(null);
   const [professorName, setProfessorName] = useState("");
@@ -80,7 +73,7 @@ function ColdMailForm() {
       // formData.append("product_description", "...");
       const response = await fetch("/api/generate", {
         method: "POST",
-        body: formData, 
+        body: formData,
       });
 
       if (!response.ok) {
@@ -98,6 +91,7 @@ function ColdMailForm() {
   };
 
   return (
+
     <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
       <div style={{ animationDelay: "0.2s" }}>
         <Label htmlFor="cv" className="text-gray-700 dark:text-gray-200 font-medium">
@@ -156,30 +150,27 @@ function ColdMailForm() {
                        resize-none border-gray-300 dark:border-gray-700
                        focus:ring-gray-500 focus:border-gray-500"
           />
-        </div>
+          </div>
+
       )}
-    </form>
+      </form>
+
   );
 }
 
-//
-// 3) Main Page Component with Dark Mode Toggle
-//
 export default function Page() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
+    <>
+    <Navbar/>
     <div className={darkMode ? "dark" : ""}>
-      {/* Cursor trailing effect */}
       <MouseTrail />
-
-      {/* Main container background (switches based on dark mode) */}
       <div
         className={`min-h-screen w-full transition-colors duration-300 ${
           darkMode ? "bg-gray-900" : "bg-gray-100"
         }`}
       >
-        {/* Header with Title & Dark Mode Toggle */}
         <header className="flex items-center justify-between p-4">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
             Generate Your Cold Email
@@ -193,7 +184,6 @@ export default function Page() {
           </Button>
         </header>
 
-        {/* Glassy container */}
         <main className="flex flex-col items-center justify-center">
           <div
             className="max-w-xl w-full p-6 m-4
@@ -207,6 +197,8 @@ export default function Page() {
           </div>
         </main>
       </div>
-    </div>
+      </div>
+      </>
+
   );
 }
