@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import Navbar from "@/components/ui/navbar";
+import FunkyNavbar from "@/components/ui/navbar";
 
 function MouseTrail() {
   const [dots, setDots] = useState<{ x: number; y: number; id: string }[]>([]);
@@ -22,10 +22,7 @@ function MouseTrail() {
       ]);
     };
     window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   useEffect(() => {
@@ -40,37 +37,72 @@ function MouseTrail() {
         <span
           key={dot.id}
           className="fixed pointer-events-none animate-dot"
-          style={{
-            top: dot.y,
-            left: dot.x,
-          }}
+          style={{ top: dot.y, left: dot.x }}
         />
       ))}
     </>
   );
 }
 
-function ColdMailForm() {
+function BackgroundSVGs() {
+  const [svgs, setSvgs] = useState<
+    { id: string; left: string; top: string; delay: string }[]
+  >([]);
+
+  useEffect(() => {
+    const newSvgs = [];
+    // Generate 7 SVG elements at random positions with random animation delays
+    for (let i = 0; i < 7; i++) {
+      newSvgs.push({
+        id: Math.random().toString(36).substring(2),
+        left: Math.random() * 100 + "%",
+        top: Math.random() * 100 + "%",
+        delay: Math.random() * 5 + "s",
+      });
+    }
+    setSvgs(newSvgs);
+  }, []);
+
+  return (
+    <>
+      {svgs.map((svg) => (
+        <svg
+          key={svg.id}
+          className="background-svg"
+          style={{ left: svg.left, top: svg.top, animationDelay: svg.delay }}
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* Example envelope icon */}
+          <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+          <polyline points="3 7 12 13 21 7" />
+        </svg>
+      ))}
+    </>
+  );
+}
+
+function ColdMailSection() {
   const [file, setFile] = useState<File | null>(null);
   const [professorName, setProfessorName] = useState("");
   const [generatedMail, setGeneratedMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Handle the submission via button click (no form submission event)
+  const handleSubmit = async () => {
     if (!file || !professorName) return;
-
     setIsLoading(true);
-
-
     try {
-
       const formData = new FormData();
-
       formData.append("prospect_name", professorName);
       formData.append("cv", file);
-      // formData.append("extra_link", "...");
-      // formData.append("product_description", "...");
+
       const response = await fetch("/api/generate", {
         method: "POST",
         body: formData,
@@ -79,22 +111,22 @@ function ColdMailForm() {
       if (!response.ok) {
         throw new Error("Failed to generate email.");
       }
-
       const result = await response.json();
       setGeneratedMail(result.email || "Error: No response from server.");
     } catch (error) {
       console.error("Error generating cold mail:", error);
-      alert("An error occurred while generating the cold mail. Please try again.");
+      alert(
+        "An error occurred while generating the cold mail. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-
-    <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
-      <div style={{ animationDelay: "0.2s" }}>
-        <Label htmlFor="cv" className="text-gray-700 dark:text-gray-200 font-medium">
+    <div className="space-y-8 animate-fade-in">
+      <div className="funky-input-group" style={{ animationDelay: "0.2s" }}>
+        <Label htmlFor="cv" className="funky-label block mb-2">
           Upload your CV (PDF)
         </Label>
         <Input
@@ -103,15 +135,12 @@ function ColdMailForm() {
           accept=".pdf"
           onChange={(e) => setFile(e.target.files?.[0] || null)}
           required
-          className="mt-2 bg-white/70 dark:bg-gray-900/40 text-gray-800 dark:text-gray-200
-                     placeholder-gray-500 dark:placeholder-gray-400
-                     border-gray-300 dark:border-gray-700
-                     focus:ring-gray-500 focus:border-gray-500 transition duration-200"
+          className="mt-2 funky-input w-full"
         />
       </div>
 
-      <div style={{ animationDelay: "0.4s" }}>
-        <Label htmlFor="professorName" className="text-gray-700 dark:text-gray-200 font-medium">
+      <div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
+        <Label htmlFor="professorName" className="funky-label block mb-2">
           Professor&apos;s Name
         </Label>
         <Input
@@ -119,18 +148,14 @@ function ColdMailForm() {
           value={professorName}
           onChange={(e) => setProfessorName(e.target.value)}
           required
-          className="mt-2 bg-white/70 dark:bg-gray-900/40 text-gray-800 dark:text-gray-200
-                     placeholder-gray-500 dark:placeholder-gray-400
-                     border-gray-300 dark:border-gray-700
-                     focus:ring-gray-500 focus:border-gray-500 transition duration-200"
+          className="mt-2 funky-input w-full"
           placeholder="Enter professor's name"
         />
       </div>
 
       <Button
-        type="submit"
-        className="w-full bg-gray-800 dark:bg-gray-600 hover:bg-gray-700 dark:hover:bg-gray-500
-                   text-white font-semibold transition-all duration-300 disabled:opacity-70 mt-4"
+        onClick={handleSubmit}
+        className="w-full funky-button"
         style={{ animationDelay: "0.6s" }}
         disabled={isLoading}
       >
@@ -138,67 +163,51 @@ function ColdMailForm() {
       </Button>
 
       {generatedMail && (
-        <div className="mt-8" style={{ animationDelay: "0.8s" }}>
-          <h2 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">
+        <div className="mt-8 funky-output" style={{ animationDelay: "0.8s" }}>
+          <h2 className="text-xl font-semibold funky-output-title mb-4">
             Generated Cold Mail:
           </h2>
           <Textarea
             value={generatedMail}
             readOnly
-            className="w-full h-64 bg-white/70 dark:bg-gray-900/40 text-gray-800 dark:text-gray-200
-                       placeholder-gray-500 dark:placeholder-gray-400
-                       resize-none border-gray-300 dark:border-gray-700
-                       focus:ring-gray-500 focus:border-gray-500"
+            className="w-full h-64 funky-textarea"
           />
-          </div>
-
+        </div>
       )}
-      </form>
-
+    </div>
   );
 }
 
 export default function Page() {
   const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
     <>
-    <Navbar/>
-    <div className={darkMode ? "dark" : ""}>
-      <MouseTrail />
-      <div
-        className={`min-h-screen w-full transition-colors duration-300 ${
-          darkMode ? "bg-gray-900" : "bg-gray-100"
-        }`}
-      >
-        <header className="flex items-center justify-between p-4">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
-            Generate Your Cold Email
-          </h1>
-          <Button
-            onClick={() => setDarkMode(!darkMode)}
-            className="bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 px-4 py-2
-                       transition-colors duration-300"
-          >
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </Button>
-        </header>
-
-        <main className="flex flex-col items-center justify-center">
-          <div
-            className="max-w-xl w-full p-6 m-4
-                       bg-white/30 dark:bg-gray-800/30
-                       backdrop-blur-sm
-                       border border-white/20 dark:border-gray-700/30
-                       rounded-2xl shadow-xl animate-fade-in"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <ColdMailForm />
-          </div>
-        </main>
+      {/* Pass dark mode state and toggle function to the navbar */}
+      <FunkyNavbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <div className={darkMode ? "dark" : ""}>
+        <MouseTrail />
+        <BackgroundSVGs />
+        {/* Main container with a creamy background similar to the inputs */}
+        <div
+          className={`min-h-screen w-full transition-colors duration-300 ${
+            darkMode ? "bg-gray-900/40" : "bg-white/70"
+          }`}
+        >
+          <header className="p-4 text-center relative z-10">
+            <h1 className="funky-header">Generate Your Cold Email</h1>
+          </header>
+          <main className="flex flex-col items-center justify-center relative z-10 py-12">
+            <div
+              className="max-w-xl w-full p-9 m-4 funky-card"
+              style={{ animationDelay: "0.1s" }}
+            >
+              <ColdMailSection />
+            </div>
+          </main>
+        </div>
       </div>
-      </div>
-      </>
-
+    </>
   );
 }
