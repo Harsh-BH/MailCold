@@ -8,3 +8,7 @@ python-dotenv==1.0.0
 langchain_community
 PyPDF2
 python-multipart
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
