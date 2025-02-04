@@ -3,5 +3,3 @@ on :
   push:
   branches:
     main
-
-  step

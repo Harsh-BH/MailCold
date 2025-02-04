@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 from app.config import GOOGLE_API_KEY, GOOGLE_CSE_ID
 
 def google_search(query: str):
-    """
-    Use the Google Custom Search Engine (CSE) to find relevant pages.
-    """
+  
     if not GOOGLE_API_KEY or not GOOGLE_CSE_ID:
         print("Google API key or CSE ID is missing. Returning empty results.")
         return []
