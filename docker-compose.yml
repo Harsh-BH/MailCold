@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   my-fastapi-service:
-    container_name: my-fullstack-app
+    container_name: mailcold-app
     build:
       context: .  # path to the directory containing Dockerfile
       dockerfile: Dockerfile

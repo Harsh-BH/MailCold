@@ -1,24 +1,49 @@
- FROM node:18-alpine as frontend-builder
 
-    WORKDIR /app/client
-    COPY client/package*.json ./
-    RUN npm install
+# For frontend
 
-    COPY client/ ./
+FROM node:18-alpine as frontend-builder
 
-    RUN npm run build
+WORKDIR /app/client
 
-    FROM python:3.10-slim as final
+COPY client/mailcold/package*.json ./
 
-    WORKDIR /app
+RUN npm install
 
-    COPY server/requirements.txt /app
-    RUN pip install --no-cache-dir -r requirements.txt
+COPY client/mailcold ./
 
-    COPY server/ /app/server
+RUN npm build
 
-    COPY --from=frontend-builder /app/client/build /app/server/client_build
+# For backend
 
-    EXPOSE 8000
-    
-    CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8000"]
+FROM python:3.10-slim as final
+
+WORKDIR /app/server
+
+COPY server/requirements.txt ./
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY server/ ./
+
+COPY --from=frontend-builder /app/client/build /app/server/client_build
+
+EXPOSE 8000
+
+CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
