@@ -204,7 +204,7 @@ export default function Page() {
   return (
     <>
       {/* Pass dark mode state and toggle function to the navbar */}
-      <FunkyNavbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <FunkyNavbar  />
       <div className={darkMode ? "dark" : ""}>
         <MouseTrail />
         <BackgroundSVGs />
