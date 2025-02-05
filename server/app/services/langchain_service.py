@@ -33,15 +33,15 @@ def generate_cold_email(
     prospect_info: str,
     cv_info: str,
     prospect_name: str,
-    selected_template_key:str
+    # selected_template_key:str
 ) -> str:
     if not OPENAI_API_KEY:
         return "OPENAI_API_KEY not set. Can't generate email."
 
-    selected_template_data = email_templates.get(selected_template_key)
-    if not selected_template_data:
-        return "Invalid template selected."
-    selected_template = selected_template_data["template"]
+    # selected_template_data = email_templates.get(selected_template_key)
+    # if not selected_template_data:
+    #     return "Invalid template selected."
+    # selected_template = selected_template_data["template"]
 
     llm = ChatOpenAI(
         openai_api_key=OPENAI_API_KEY,
@@ -52,26 +52,24 @@ def generate_cold_email(
     prompt_template = PromptTemplate.from_template(
         """You are an expert at writing personalized, formal, and professional cold outreach emails addressed to senior professionals.
 
-        Below is the base email template to follow:
-        {selected_template}
+Prospect Information (scraped and summarized): {prospect_info}
 
-        Prospect Information (scraped and summarized): {prospect_info}
+My Background and Projects (from my CV): {cv_info}
 
-        My Background and Projects (from my CV): {cv_info}
+Prospect Name: {prospect_name}
 
-        Prospect Name: {prospect_name}
-
-        Using the above, craft a formal cold email that adheres to the structure of the provided template. Ensure that any placeholders in the template (such as {professor_name}, {field_of_study}, {experience}, {your_name}, or {research_area}) are appropriately filled in or adjusted based on the provided details. The final email should be coherent, professional, and include a clear call to action.
-
-        """
+Using the above information, craft a formal cold email that references the prospect's background and accomplishments, and clearly connects my experience, projects, and skills (as detailed in my CV) with their work. In the email, respectfully suggest potential upgrades or enhancements to their projects and inquire whether my expertise might contribute to further improvements or innovations. Ensure the tone is formal, courteous, and professional, and conclude with a clear call to action for further conversation.
+"""
     )
+
+
 
     chain = LLMChain(llm=llm, prompt=prompt_template)
     result = chain.run(
         prospect_info=prospect_info,
         cv_info=cv_info,
         prospect_name=prospect_name,
-        selected_template = selected_template
+        # selected_template = selected_template
     )
     return result.strip()
 

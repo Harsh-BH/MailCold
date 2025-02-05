@@ -26,7 +26,7 @@ async def generate_email_endpoint(
     prospect_name: str = Form(..., description="Example: 'John Doe AI Researcher'"),
     extra_link: Optional[str] = Form(None, description="Example: 'https://www.linkedin.com/in/johndoe/'"),
     cv: UploadFile = File(..., description="Upload your CV as a PDF"),
-    selected_template_key: str = Form(..., description="Email template key, e.g. 'research_inquiry'")
+    # selected_template_key: str = Form(..., description="Email template key, e.g. 'research_inquiry'")
 ):
 
     search_results = google_search(prospect_name)
@@ -56,10 +56,8 @@ async def generate_email_endpoint(
         prospect_info=prospect_summary,
         cv_info=cv_summary,
         prospect_name=prospect_name,
-        selected_template_key=selected_template_key
+        # selected_template_key=selected_template_key
     )
-
-
 
     suggestions = generate_contextual_suggestions(cv_info=cv_summary, prospect_info=prospect_summary)
 

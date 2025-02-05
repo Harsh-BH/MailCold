@@ -10,26 +10,26 @@ import FunkyNavbar from "@/components/ui/navbar";
 function MouseTrail() {
   const [dots, setDots] = useState<{ x: number; y: number; id: string }[]>([]);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setDots((prevDots) => [
-        ...prevDots,
-        {
-          x: e.clientX,
-          y: e.clientY,
-          id: Math.random().toString(36).substring(2),
-        },
-      ]);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // useEffect(() => {
+  //   const handleMouseMove = (e: MouseEvent) => {
+  //     setDots((prevDots) => [
+  //       ...prevDots,
+  //       {
+  //         x: e.clientX,
+  //         y: e.clientY,
+  //         id: Math.random().toString(36).substring(2),
+  //       },
+  //     ]);
+  //   };
+  //   window.addEventListener("mousemove", handleMouseMove);
+  //   return () => window.removeEventListener("mousemove", handleMouseMove);
+  // }, []);
 
-  useEffect(() => {
-    if (dots.length > 30) {
-      setDots((prevDots) => prevDots.slice(prevDots.length - 30));
-    }
-  }, [dots]);
+  // useEffect(() => {
+  //   if (dots.length > 30) {
+  //     setDots((prevDots) => prevDots.slice(prevDots.length - 30));
+  //   }
+  // }, [dots]);
 
   return (
     <>
@@ -93,6 +93,7 @@ function ColdMailSection() {
   const [professorName, setProfessorName] = useState("");
   const [generatedMail, setGeneratedMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // const [selectedTemplate, setSelectedTemplate] = useState("research_inquiry");
 
   // Handle the submission via button click (no form submission event)
   const handleSubmit = async () => {
@@ -102,6 +103,7 @@ function ColdMailSection() {
       const formData = new FormData();
       formData.append("prospect_name", professorName);
       formData.append("cv", file);
+      // formData.append("selected_template_key", selectedTemplate);
 
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -143,15 +145,32 @@ function ColdMailSection() {
         <Label htmlFor="professorName" className="funky-label block mb-2">
           Professor&apos;s Name
         </Label>
-        <Input
-          id="professorName"
-          value={professorName}
-          onChange={(e) => setProfessorName(e.target.value)}
-          required
-          className="mt-2 funky-input w-full"
-          placeholder="Enter professor's name"
+        <input
+  id="professorName"
+  value={professorName}
+  onChange={(e) => {
+    console.log("Typing:", e.target.value);
+    setProfessorName(e.target.value);
+  }}
+  placeholder="Enter professor's name"
+  className="mt-2 funky-input w-full"
         />
       </div>
+      {/* <div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
+        <Label htmlFor="template" className="funky-label block mb-2">
+          Select Email Template
+        </Label>
+        <select
+          id="template"
+          value={selectedTemplate}
+          onChange={(e) => setSelectedTemplate(e.target.value)}
+          className="mt-2 funky-input w-full"
+        >
+          <option value="research_inquiry">Research Inquiry</option>
+          <option value="collaboration_request">Collaboration Request</option>
+          <option value="job_application">Job Application</option>
+        </select>
+      </div> */}
 
       <Button
         onClick={handleSubmit}
