@@ -142,9 +142,9 @@ body {
   font-size: 3rem;
   text-shadow: 3px 3px 0 #ff69b4;
   margin-bottom: 16px;
-  background: linear-gradient(90deg, #ff69b4, #ff1493);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
 }
 
 /* ----- Background SVGs ----- */
