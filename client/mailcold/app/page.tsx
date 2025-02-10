@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import FunkyNavbar from "@/components/ui/navbar";
@@ -223,20 +222,17 @@ function ColdMailSection() {
 }
 
 export default function Page() {
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
     <>
       {/* Pass dark mode state and toggle function to the navbar */}
       <FunkyNavbar />
-      <div className={darkMode ? "dark" : ""}>
+      <div>
 
         <BackgroundSVGs />
         {/* Main container with a creamy background similar to the inputs */}
         <div
-          className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? "bg-gray-900/40" : "bg-white/70"
-            }`}
+          className={`min-h-screen w-full transition-colors duration-300 $`}
         >
           <header className="p-4 text-center relative z-10">
             <h1 className="funky-header">Generate Your Cold Email</h1>
