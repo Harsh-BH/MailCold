@@ -7,43 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import FunkyNavbar from "@/components/ui/navbar";
 
-function MouseTrail() {
-  const [dots, setDots] = useState<{ x: number; y: number; id: string }[]>([]);
-
-  // useEffect(() => {
-  //   const handleMouseMove = (e: MouseEvent) => {
-  //     setDots((prevDots) => [
-  //       ...prevDots,
-  //       {
-  //         x: e.clientX,
-  //         y: e.clientY,
-  //         id: Math.random().toString(36).substring(2),
-  //       },
-  //     ]);
-  //   };
-  //   window.addEventListener("mousemove", handleMouseMove);
-  //   return () => window.removeEventListener("mousemove", handleMouseMove);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (dots.length > 30) {
-  //     setDots((prevDots) => prevDots.slice(prevDots.length - 30));
-  //   }
-  // }, [dots]);
-
-  return (
-    <>
-      {dots.map((dot) => (
-        <span
-          key={dot.id}
-          className="fixed pointer-events-none animate-dot"
-          style={{ top: dot.y, left: dot.x }}
-        />
-      ))}
-    </>
-  );
-}
-
 function BackgroundSVGs() {
   const [svgs, setSvgs] = useState<
     { id: string; left: string; top: string; delay: string }[]
@@ -93,6 +56,7 @@ function ColdMailSection() {
   const [professorName, setProfessorName] = useState("");
   const [generatedMail, setGeneratedMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [ProjectInfo, setProjectInfo] = useState("");
   // const [selectedTemplate, setSelectedTemplate] = useState("research_inquiry");
 
   // Handle the submission via button click (no form submission event)
@@ -103,6 +67,7 @@ function ColdMailSection() {
       const formData = new FormData();
       formData.append("prospect_name", professorName);
       formData.append("cv", file);
+      formData.append("project_info", ProjectInfo);
       // formData.append("selected_template_key", selectedTemplate);
 
       const response = await fetch("/api/generate", {
@@ -149,7 +114,6 @@ function ColdMailSection() {
   id="professorName"
   value={professorName}
   onChange={(e) => {
-    console.log("Typing:", e.target.value);
     setProfessorName(e.target.value);
   }}
   placeholder="Enter professor's name"
@@ -171,6 +135,21 @@ function ColdMailSection() {
           <option value="job_application">Job Application</option>
         </select>
       </div> */}
+
+<div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
+        <Label htmlFor="ProjectInfo" className="funky-label block mb-2">
+          Professor&apos;s Project Information
+        </Label>
+        <input
+  id="ProjectInfo"
+  value={ProjectInfo}
+  onChange={(e) => {
+    setProjectInfo(e.target.value);
+  }}
+  placeholder="Enter professor's Project info"
+  className="mt-2 funky-input w-full"
+        />
+      </div>
 
       <Button
         onClick={handleSubmit}
@@ -206,7 +185,7 @@ export default function Page() {
       {/* Pass dark mode state and toggle function to the navbar */}
       <FunkyNavbar  />
       <div className={darkMode ? "dark" : ""}>
-        <MouseTrail />
+     
         <BackgroundSVGs />
         {/* Main container with a creamy background similar to the inputs */}
         <div

@@ -3,7 +3,7 @@ from typing import Optional
 import PyPDF2
 
 from app.services.search_service import scrape_page, google_search
-from app.services.langchain_service import generate_cold_email, summarize_text
+from app.services.langchain_service import generate_cold_email, summarize_text , summarize_project_of_professor
 from app.services.langchain_service import generate_contextual_suggestions , generate_email_subject_lines
 
 router = APIRouter()
@@ -26,6 +26,7 @@ async def generate_email_endpoint(
     prospect_name: str = Form(..., description="Example: 'John Doe AI Researcher'"),
     extra_link: Optional[str] = Form(None, description="Example: 'https://www.linkedin.com/in/johndoe/'"),
     cv: UploadFile = File(..., description="Upload your CV as a PDF"),
+    project_info:str  = Form(..., description="Example:'fluid dynamics'"),
     # selected_template_key: str = Form(..., description="Email template key, e.g. 'research_inquiry'")
 ):
 
@@ -37,6 +38,11 @@ async def generate_email_endpoint(
 
     try:
         cv_text = extract_pdf_text(cv)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error reading PDF: {str(e)}")
+
+    try:
+        project_info = summarize_project_of_professor(project_info)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error reading PDF: {str(e)}")
 
@@ -52,10 +58,13 @@ async def generate_email_endpoint(
     cv_summary = summarize_text(cv_text)
 
 
+
+
     final_email = generate_cold_email(
         prospect_info=prospect_summary,
         cv_info=cv_summary,
         prospect_name=prospect_name,
+        project_info=project_info,
         # selected_template_key=selected_template_key
     )
 
