@@ -1,20 +1,29 @@
-
-
 /* Navbar container */
 .navbar {
-  background-color: #ffcc00; /* Bright, funky color */
-  border: 3px solid #333;    /* Bold border */
+  background-color: #ff69b4; /* Bright, funky color */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border-radius: 1rem;
 }
+
+
 
 /* Logo styling */
 .logo {
-  font-size: 28px;
+  font-size: 40px;
   color: #333;
+  font-family: 'Pixelify Sans', cursive;
+  animation: bounce 1.5s infinite alternate ease-in-out;
+}
+
+/* Text animation */
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
 }
 
 /* Style each navigation link as a cartoonish button */
@@ -24,22 +33,24 @@
   margin: 0 10px;
   font-size: 20px;
   padding: 8px 16px;
-  border: 2px solid #333;      /* Button border */
-  border-radius: 10px;         /* Rounded corners for a playful look */
+  border: 2px solid #333;
+  border-radius: 10px;
   background-color: #fff;
-  box-shadow: 2px 2px 0px #333; /* Cartoonish drop shadow */
+  box-shadow: 2px 2px 0px #333;
   transition: all 0.3s ease;
+  font-family: 'Pixelify Sans', cursive;
+  position: relative;
+  animation: wiggle 2s infinite alternate ease-in-out;
 }
 
 /* Hover effect for cartoonish interaction */
 .nav-links a:hover {
-  color: #ff5733;
-  transform: scale(1.1);
-  background-color: #ffeb3b;
+  transform: scale(1.1) rotate(3deg);
+  background-color: #ff69b4;
   box-shadow: 4px 4px 0px #333;
 }
 
-/* Optional: additional button styling class if needed elsewhere */
+/* Button styling */
 .button {
   padding: 8px 16px;
   border: 2px solid #333;
@@ -47,11 +58,15 @@
   background-color: #fff;
   box-shadow: 2px 2px 0px #333;
   transition: all 0.3s ease;
+  position: relative;
+  animation: wiggle 2s infinite alternate ease-in-out;
 }
 
+/* Button hover effect */
 .button:hover {
   color: #ff5733;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(-3deg);
   background-color: #ffeb3b;
   box-shadow: 4px 4px 0px #333;
 }
+
