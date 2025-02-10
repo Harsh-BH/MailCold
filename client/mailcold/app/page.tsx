@@ -208,7 +208,7 @@ function ColdMailSection() {
         SubjectLines && (
           <div className="mt-8 funky-output" style={{ animationDelay: "0.8s" }}>
             <h2 className="text-xl font-semibold funky-output-title mb-4">
-              Contextual Suggestions:
+              Subject Lines Suggestions:
             </h2>
             <Textarea
               value={SubjectLines}
