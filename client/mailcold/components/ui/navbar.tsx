@@ -6,11 +6,11 @@ const FunkyNavbar: React.FC = () => {
     <nav className="navbar">
       <div className="logo">MailCold</div>
       <div className="nav-links">
-        
+
         <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
+        <a href="/about">About</a>
+        {/* <a href="#">Services</a>
+        <a href="#">Contact</a> */}
       </div>
     </nav>
   );

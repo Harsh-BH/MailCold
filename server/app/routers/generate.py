@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from typing import Optional
 import PyPDF2
 
-from app.services.search_service import scrape_page, google_search
+from app.services.search_service import scrape_page, google_search   , get_university_faculty
 from app.services.langchain_service import generate_cold_email, summarize_text , summarize_project_of_professor
 from app.services.langchain_service import generate_contextual_suggestions , generate_email_subject_lines
 
@@ -57,6 +57,9 @@ async def generate_email_endpoint(
 
     cv_summary = summarize_text(cv_text)
 
+    faculty_info = get_university_faculty("https://www.iitkgp.ac.in/navpage/administration")
+
+    print(f"this is the facult onformation{faculty_info}")
 
 
 
@@ -77,3 +80,6 @@ async def generate_email_endpoint(
         "contextual_suggestions": suggestions,
         "subject_lines": subject_lines
     }
+
+
+
