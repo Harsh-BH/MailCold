@@ -1,5 +1,5 @@
 @import url('https://fonts.cdnfonts.com/css/funky');
-
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Pixelify+Sans:wght@400..700&family=Rowdies:wght@300;400;700&family=Silkscreen:wght@400;700&display=swap');
 
 
 body {
@@ -7,7 +7,55 @@ body {
   background-color: #fff8dc; /* Creamy background matching inputs */
 }
 
-/* ----- Funky Input Styling ----- */
+
+.funky-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between elements */
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+
+.funky-input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.funky-file-label {
+  background-color: #ff69b4; /* Vibrant pink */
+  color: #000000;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: inline-block;
+  cursor: pointer;
+  font-family: 'Funky', sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0px #d1478d;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  margin-bottom: 15px;
+}
+
+.funky-file-label:hover {
+  background-color: #d1478d;
+}
+
+.funky-file-label:active {
+  transform: translateY(2px);
+  box-shadow: 2px 2px 0px #b23575;
+}
+
+/* Display Selected File Name */
+.funky-file-name {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #333;
+  font-family: 'Pixelify Sans', cursive;
+
+}
+
 .funky-input {
   background-color: #fff8dc;
   border: 2px solid #ff69b4; /* Vibrant pink border */
@@ -15,6 +63,11 @@ body {
   padding: 10px;
   box-shadow: 4px 4px 0px #ff69b4;
   transition: transform 0.2s, box-shadow 0.2s;
+  margin-left: 10px;
+  font-family: 'Pixelify Sans', cursive;
+  font-size: 20px;
+  margin-bottom: 15px;
+
 }
 
 .funky-input:focus {
@@ -40,6 +93,7 @@ body {
   font-size: 1.1rem;
   box-shadow: 4px 4px 0px #ff1493;
   transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px;
 }
 
 .funky-button:hover {
@@ -62,9 +116,10 @@ body {
   border: 2px solid #ff69b4;
   border-radius: 12px;
   padding: 10px;
-  font-family: 'Funky', sans-serif;
+  font-family: 'Pixelify Sans', sans-serif;
   box-shadow: 4px 4px 0px #ff69b4;
   transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 25px;
 }
 
 /* ----- Funky Output Styling ----- */

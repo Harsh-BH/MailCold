@@ -97,19 +97,29 @@ function ColdMailSection() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="funky-input-group" style={{ animationDelay: "0.2s" }}>
-        <Label htmlFor="cv" className="funky-label block mb-2">
-          Upload your CV (PDF)
-        </Label>
-        <Input
-          id="cv"
-          type="file"
-          accept=".pdf"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          required
-          className="mt-2 funky-input w-full"
-        />
-      </div>
+  <div className="funky-input-group" style={{ animationDelay: "0.2s" }}>
+    <Label htmlFor="cv" className="funky-label block mb-2">
+      Upload your CV (PDF)
+    </Label>
+
+    {/* Custom File Input */}
+    <label htmlFor="cv" className="funky-file-label">
+      Choose a File
+    </label>
+    <input
+      id="cv"
+      type="file"
+      accept=".pdf"
+      onChange={(e) => setFile(e.target.files?.[0] || null)}
+      required
+      className="funky-input"
+    />
+
+    {/* Display Selected File Name */}
+    {file && <p className="funky-file-name">{file.name}</p>}
+  </div>
+
+
 
       <div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
         <Label htmlFor="professorName" className="funky-label block mb-2">
