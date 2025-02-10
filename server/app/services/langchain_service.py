@@ -155,19 +155,30 @@ def generate_email_subject_lines(cv_info:str, prospect_info:str)->list[str]:
                       )
 
     prompt_template = PromptTemplate.from_template(
-        """Using the following information, generate 3 compelling and professional email subject lines
-that capture the candidate's expertise and the professor's research interests.
+    """Generate 5 compelling and professional email subject lines for a research internship inquiry.
+The subject lines should highlight the candidate's expertise, align with the professor’s research interests,
+and express a keen interest in contributing to their work.
 
 CV Information: {cv_info}
 Prospect Information: {prospect_info}
 
+Ensure the subject lines are:
+- Professional and engaging.
+- Focused on research collaboration and an internship opportunity.
+- Personalized based on the candidate’s skills and the professor’s research.
+
 Provide each subject line on a new line."""
-    )
+)
+
 
     chain = LLMChain(llm=llm, prompt=prompt_template)
     result = chain.run(cv_info=cv_info, prospect_info=prospect_info)
     subject_lines = [line.strip() for line in result.split("\n") if line.strip()]
-    return subject_lines
+    formatted_output = "\nGenerated Email Subject Lines:\n\n"
+    formatted_output += "\n".join(subject_lines)
+
+
+    return formatted_output
 
 
 

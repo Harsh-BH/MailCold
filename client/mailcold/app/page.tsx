@@ -57,6 +57,9 @@ function ColdMailSection() {
   const [generatedMail, setGeneratedMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [ProjectInfo, setProjectInfo] = useState("");
+  const [ContextualSuggestion, setContextualSuggestion] = useState("");
+  const [SubjectLines, setSubjectLines] = useState("");
+
   // const [selectedTemplate, setSelectedTemplate] = useState("research_inquiry");
 
   // Handle the submission via button click (no form submission event)
@@ -80,6 +83,8 @@ function ColdMailSection() {
       }
       const result = await response.json();
       setGeneratedMail(result.email || "Error: No response from server.");
+      setContextualSuggestion(result.contextual_suggestions || "Error: No response from server.");
+      setSubjectLines(result.subject_lines || "Error: No response from the sever");
     } catch (error) {
       console.error("Error generating cold mail:", error);
       alert(
@@ -111,13 +116,13 @@ function ColdMailSection() {
           Professor&apos;s Name
         </Label>
         <input
-  id="professorName"
-  value={professorName}
-  onChange={(e) => {
-    setProfessorName(e.target.value);
-  }}
-  placeholder="Enter professor's name"
-  className="mt-2 funky-input w-full"
+          id="professorName"
+          value={professorName}
+          onChange={(e) => {
+            setProfessorName(e.target.value);
+          }}
+          placeholder="Enter professor's name"
+          className="mt-2 funky-input w-full"
         />
       </div>
       {/* <div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
@@ -136,18 +141,18 @@ function ColdMailSection() {
         </select>
       </div> */}
 
-<div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
+      <div className="funky-input-group" style={{ animationDelay: "0.4s" }}>
         <Label htmlFor="ProjectInfo" className="funky-label block mb-2">
           Professor&apos;s Project Information
         </Label>
         <input
-  id="ProjectInfo"
-  value={ProjectInfo}
-  onChange={(e) => {
-    setProjectInfo(e.target.value);
-  }}
-  placeholder="Enter professor's Project info"
-  className="mt-2 funky-input w-full"
+          id="ProjectInfo"
+          value={ProjectInfo}
+          onChange={(e) => {
+            setProjectInfo(e.target.value);
+          }}
+          placeholder="Enter professor's Project info"
+          className="mt-2 funky-input w-full"
         />
       </div>
 
@@ -172,7 +177,38 @@ function ColdMailSection() {
           />
         </div>
       )}
-    </div>
+
+
+      {ContextualSuggestion && (
+        <div className="mt-8 funky-output" style={{ animationDelay: "0.8s" }}>
+          <h2 className="text-xl font-semibold funky-output-title mb-4">
+            Contextual Suggestions:
+          </h2>
+          <Textarea
+            value={ContextualSuggestion}
+            readOnly
+            className="w-full h-64 funky-textarea"
+          />
+        </div>
+      )}
+
+
+
+      {
+        SubjectLines && (
+          <div className="mt-8 funky-output" style={{ animationDelay: "0.8s" }}>
+            <h2 className="text-xl font-semibold funky-output-title mb-4">
+              Contextual Suggestions:
+            </h2>
+            <Textarea
+              value={SubjectLines}
+              readOnly
+              className="w-full h-64 funky-textarea"
+            />
+          </div>
+        )
+      }
+    </div >
   );
 }
 
@@ -183,15 +219,14 @@ export default function Page() {
   return (
     <>
       {/* Pass dark mode state and toggle function to the navbar */}
-      <FunkyNavbar  />
+      <FunkyNavbar />
       <div className={darkMode ? "dark" : ""}>
-     
+
         <BackgroundSVGs />
         {/* Main container with a creamy background similar to the inputs */}
         <div
-          className={`min-h-screen w-full transition-colors duration-300 ${
-            darkMode ? "bg-gray-900/40" : "bg-white/70"
-          }`}
+          className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? "bg-gray-900/40" : "bg-white/70"
+            }`}
         >
           <header className="p-4 text-center relative z-10">
             <h1 className="funky-header">Generate Your Cold Email</h1>
