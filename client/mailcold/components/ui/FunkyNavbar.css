@@ -8,6 +8,10 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: relative;
   border-radius: 1rem;
+  width: 90%;
+  margin:auto;
+  margin-top: 10px;
+
 }
 
 
@@ -46,7 +50,7 @@
 /* Hover effect for cartoonish interaction */
 .nav-links a:hover {
   transform: scale(1.1) rotate(3deg);
-  background-color: #ff69b4;
+  background-color: #fff8dc;
   box-shadow: 4px 4px 0px #333;
 }
 

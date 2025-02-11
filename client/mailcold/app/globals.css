@@ -21,13 +21,16 @@
   animation: fadeIn 1s ease-in-out forwards;
 }
 
-
-
 body {
-  font-family: 'Funky', sans-serif;
+
   background-color: #fff8dc; /* Creamy background matching inputs */
+  font-family: 'Pixelify Sans', sans-serif;
 }
 
+.textfont{
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 1.5rem;
+}
 
 .funky-input-group {
   display: flex;
@@ -35,7 +38,6 @@ body {
   gap: 10px; /* Space between elements */
   flex-wrap: wrap; /* Ensures responsiveness */
 }
-
 
 .funky-input[type="file"] {
   position: absolute;
@@ -74,7 +76,6 @@ body {
   font-size: 20px;
   color: #333;
   font-family: 'Pixelify Sans', cursive;
-
 }
 
 .funky-input {
@@ -88,7 +89,6 @@ body {
   font-family: 'Pixelify Sans', cursive;
   font-size: 20px;
   margin-bottom: 15px;
-
 }
 
 .funky-input:focus {
@@ -122,6 +122,11 @@ body {
   box-shadow: 6px 6px 0px #ff1493;
 }
 
+.funky-textarea-generated {
+  font-size: 5rem;  /* Adjust to desired size */
+  line-height: 1.6;
+}
+
 /* ----- Funky Card Styling ----- */
 .funky-card {
   background-color: #fff8dc;
@@ -131,16 +136,21 @@ body {
   padding: 24px;
 }
 
-/* ----- Funky Textarea Styling ----- */
+/*
+  Funky Textarea Styling
+  - Increase font size to 1.5rem for larger text
+  - Increase line height for readability
+*/
 .funky-textarea {
   background-color: #fff8dc;
   border: 2px solid #ff69b4;
   border-radius: 12px;
   padding: 10px;
   font-family: 'Pixelify Sans', sans-serif;
+  font-size: 1.5rem;        /* Larger font size */
+  line-height: 1.6;        /* Increase line spacing */
   box-shadow: 4px 4px 0px #ff69b4;
   transition: transform 0.2s, box-shadow 0.2s;
-  font-size: 25px;
 }
 
 /* ----- Funky Output Styling ----- */
@@ -154,6 +164,7 @@ body {
 .funky-output-title {
   color: #ff1493;
   font-family: 'Funky', sans-serif;
+  font-size: 2rem;
 }
 
 /* ----- Enhanced Funky Header Styling ----- */
@@ -165,7 +176,6 @@ body {
   margin-bottom: 16px;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
 }
 
 /* ----- Background SVGs ----- */

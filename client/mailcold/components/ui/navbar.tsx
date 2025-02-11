@@ -1,5 +1,6 @@
 import React from 'react';
 import './FunkyNavbar.css';
+import Link from 'next/link';
 
 const FunkyNavbar: React.FC = () => {
   return (
@@ -7,8 +8,8 @@ const FunkyNavbar: React.FC = () => {
       <div className="logo">MailCold</div>
       <div className="nav-links">
 
-        <a href="#">Home</a>
-        <a href="/about">About</a>
+        <Link href="/">Home</Link>
+        <Link href="/about">About</Link>
         {/* <a href="#">Services</a>
         <a href="#">Contact</a> */}
       </div>
