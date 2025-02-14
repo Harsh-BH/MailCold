@@ -43,4 +43,31 @@ uvicorn app.main:app --host 0.0.0.0 --port 7000
 ```
 
 
+## Usage
+1. Open the application and enter the professor's name.
+2. Upload your CV.
+3. Optionally, enter research topics related to the professor.
+4. Click the "Generate Email" button.
+5. The system will retrieve relevant information and generate a tailored email.
+6. Review and copy the email for sending.
+
+## Technologies Used
+- **Python**
+- **FastAPI**
+- **Google Search API**
+- **OpenAI GPT (Using Langchain)**
+- **File Handling for CV Processing**
+
+## Future Enhancements
+- Integration with email services for direct sending.
+- Improved personalization based on CV content analysis.
+- Support for multiple LLM models.
+
+## Contributing
+Feel free to fork this repository and submit pull requests with improvements or bug fixes.
+
+## License
+This project is licensed under the MIT License.
+
+
 
