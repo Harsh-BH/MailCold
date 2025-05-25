@@ -3,7 +3,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from typing import List
-from email_templates.templates import email_templates
+from email_templates.templates import email_templates, get_subject_line_prompt, get_contextual_suggestions_prompt
 from transformers import pipeline
 
 
@@ -70,16 +70,41 @@ def generate_cold_email(
     prospect_info: str,
     cv_info: str,
     prospect_name: str,
-    project_info:str,
-    # selected_template_key:str
+    project_info: str,
+    email_type: str = "research_inquiry"
 ) -> str:
     if not OPENAI_API_KEY:
         return "OPENAI_API_KEY not set. Can't generate email."
 
-    # selected_template_data = email_templates.get(selected_template_key)
-    # if not selected_template_data:
-    #     return "Invalid template selected."
-    # selected_template = selected_template_data["template"]
+    # Get the appropriate template for the email type
+    email_template = email_templates.get(email_type, email_templates["research_inquiry"])
+    prompt_text = email_template["prompt"]
+
+    llm = ChatOpenAI(
+        openai_api_key=OPENAI_API_KEY,
+        temperature=0.4,  # Slightly reduced temperature for more consistent output
+        model_name="gpt-3.5-turbo"
+    )
+
+    prompt_template = PromptTemplate.from_template(prompt_text)
+
+    chain = LLMChain(llm=llm, prompt=prompt_template)
+    
+    result = chain.run(
+        prospect_info=prospect_info,
+        cv_info=cv_info,
+        prospect_name=prospect_name,
+        project_info=project_info
+    )
+    
+    return result.strip()
+
+
+def generate_contextual_suggestions(cv_info: str, prospect_info: str, email_type: str = "research_inquiry") -> str:
+    if not OPENAI_API_KEY:
+        return "OPENAI_API_KEY not set. Can't generate suggestions."
+
+    prompt_text = get_contextual_suggestions_prompt(email_type)
 
     llm = ChatOpenAI(
         openai_api_key=OPENAI_API_KEY,
@@ -87,96 +112,42 @@ def generate_cold_email(
         model_name="gpt-3.5-turbo"
     )
 
-    prompt_template = PromptTemplate.from_template(
-        """You are an expert at writing personalized, formal, and professional cold outreach emails addressed to senior professionals.
-
-Prospect Information (scraped and summarized): {prospect_info}
-
-My Background and Projects (from my CV): {cv_info}
-
-Prospect Name: {prospect_name}
-
-Prospect work :{project_info}
-
-Using the above information, craft a formal cold email that references the prospect's background and accomplishments, and clearly connects my experience, projects, and skills (as detailed in my CV) with their work. In the email, respectfully suggest potential upgrades or enhancements to their projects and inquire whether my expertise might contribute to further improvements or innovations. Ensure the tone is formal, courteous, and professional, and conclude with a clear call to action for further conversation.
-"""
-    )
-
-
+    prompt_template = PromptTemplate.from_template(prompt_text)
 
     chain = LLMChain(llm=llm, prompt=prompt_template)
+    
     result = chain.run(
-        prospect_info=prospect_info,
         cv_info=cv_info,
-        prospect_name=prospect_name,
-        project_info = project_info,
-        # selected_template = selected_template
+        prospect_info=prospect_info
     )
-    return result.strip()
-
-
-def generate_contextual_suggestions(cv_info:str, prospect_info:str)->str:
-
-    if not OPENAI_API_KEY:
-        return "OPENAI_API_KEY not set. Can't generate suggestions."
-
-    llm  = ChatOpenAI(openai_api_key = OPENAI_API_KEY,
-                      temperature = 0.3,
-                      model_name = "gpt-3.5-turbo"
-                      )
-
-    prompt_template = PromptTemplate.from_template(
-                """Analyze the following CV information and prospect information.
-        Identify and suggest areas of overlap between the candidate's expertise and the professor's research interests.
-
-        CV Information: {cv_info}
-
-        Prospect Information: {prospect_info}
-
-        Provide your suggestions in a concise manner."""
-    )
-
-    chain = LLMChain(llm = llm , prompt = prompt_template)
-    result = chain.run(cv_info = cv_info,
-                       prospect_info = prospect_info)
 
     return result.strip()
 
 
-def generate_email_subject_lines(cv_info:str, prospect_info:str)->list[str]:
-
+def generate_email_subject_lines(cv_info: str, prospect_info: str, email_type: str = "research_inquiry") -> str:
     if not OPENAI_API_KEY:
         return "OPENAI_API_KEY not set. Can't generate suggestions."
 
+    prompt_text = get_subject_line_prompt(email_type)
 
-    llm  = ChatOpenAI(openai_api_key = OPENAI_API_KEY,
-                      temperature = 0.3,
-                      model_name = "gpt-3.5-turbo"
-                      )
+    llm = ChatOpenAI(
+        openai_api_key=OPENAI_API_KEY,
+        temperature=0.4,
+        model_name="gpt-3.5-turbo"
+    )
 
-    prompt_template = PromptTemplate.from_template(
-    """Generate 5 compelling and professional email subject lines for a research internship inquiry.
-The subject lines should highlight the candidate's expertise, align with the professor’s research interests,
-and express a keen interest in contributing to their work.
-
-CV Information: {cv_info}
-Prospect Information: {prospect_info}
-
-Ensure the subject lines are:
-- Professional and engaging.
-- Focused on research collaboration and an internship opportunity.
-- Personalized based on the candidate’s skills and the professor’s research.
-
-Provide each subject line on a new line."""
-)
-
+    prompt_template = PromptTemplate.from_template(prompt_text)
 
     chain = LLMChain(llm=llm, prompt=prompt_template)
-    result = chain.run(cv_info=cv_info, prospect_info=prospect_info)
+    
+    result = chain.run(
+        cv_info=cv_info,
+        prospect_info=prospect_info
+    )
+
     subject_lines = [line.strip() for line in result.split("\n") if line.strip()]
     formatted_output = "\nGenerated Email Subject Lines:\n\n"
     formatted_output += "\n".join(subject_lines)
-
 
     return formatted_output
 

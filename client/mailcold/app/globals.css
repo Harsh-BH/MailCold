@@ -21,8 +21,175 @@
   animation: fadeIn 1s ease-in-out forwards;
 }
 
-body {
+/* New animations for About page */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Update float animation for better movement */
+@keyframes float {
+  0% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  33% { 
+    transform: translateY(-15px) rotate(5deg); 
+  }
+  67% { 
+    transform: translateY(10px) rotate(-5deg); 
+  }
+  100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease forwards;
+}
+
+.animate-fade-right {
+  animation: fadeRight 0.8s ease forwards;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Add a new animation for shape rotation */
+@keyframes drift {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-drift {
+  animation: drift 20s linear infinite;
+}
+
+/* Funky toast animations */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translateY(-5px);
+  }
+  80% {
+    transform: scale(0.95) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+.animate-bounce-out {
+  animation: bounce-out 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+.funky-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ff69b4;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+  animation: pulse 2s infinite;
+}
+
+.funky-close-button {
+  border: 2px solid #ff1493;
+  transition: transform 0.2s;
+  color: #b23575;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+html, body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
+body {
   background-color: #fff8dc; /* Creamy background matching inputs */
   font-family: 'Pixelify Sans', sans-serif;
 }
@@ -181,22 +348,26 @@ body {
 /* ----- Background SVGs ----- */
 .background-svg {
   position: absolute;
-  z-index: 0;
-  color: #ff69b4;
-  opacity: 0.3;
-  animation: moveSVG 20s linear infinite;
+  opacity: 0.1;
+  animation: float 10s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
+  max-width: 40px;
+  max-height: 40px;
 }
 
-@keyframes moveSVG {
-  0% {
-    transform: translate(0, 0);
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
   }
   50% {
-    transform: translate(50px, -50px);
+    transform: translateY(0) translateX(20px);
   }
-  100% {
-    transform: translate(0, 0);
+  75% {
+    transform: translateY(20px) translateX(10px);
   }
 }
 
@@ -218,4 +389,35 @@ body {
   to {
     opacity: 0;
   }
+}
+
+/* Email type card styling */
+.email-type-card {
+  background-color: #fff8dc;
+  border: 2px solid #ff69b4;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.email-type-card:hover {
+  box-shadow: 4px 4px 0px #ff69b4;
+  transform: translateY(-2px);
+}
+
+.email-type-card.selected {
+  box-shadow: 6px 6px 0px #ff1493;
+  border-width: 3px;
+}
+
+.email-type-title {
+  font-family: 'Funky', sans-serif;
+  color: #ff1493;
+  font-size: 1.2rem;
+}
+
+.email-type-desc {
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.3;
 }
