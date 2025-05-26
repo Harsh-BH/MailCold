@@ -54,11 +54,11 @@ export async function POST(req: NextRequest) {
         if (errorJson.detail) {
           errorDetail = JSON.stringify(errorJson.detail);
         }
-      } catch (e) {
+      } catch {
         // If json parsing fails, use text
         try {
           errorDetail = await fastApiResponse.text();
-        } catch (e2) {
+        } catch {
           // Keep using statusText if all else fails
         }
       }
@@ -87,6 +87,5 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-
 }
 

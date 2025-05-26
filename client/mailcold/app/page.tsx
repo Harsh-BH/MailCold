@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import FunkyNavbar from "@/components/ui/navbar";
 import { showFunkyToast } from "@/components/ui/funky-toast";
-import { Toaster } from "react-hot-toast";
 
 // -------------------------------------------
 // Replacing simple envelope SVGs with FloatingShapes
@@ -274,7 +273,7 @@ export default function Page() {
     
     setIsLoading(true);
     
-    const loadingToast = showFunkyToast.loading("Generating your cold email...");
+   
   
     try {
       const formData = new FormData();
